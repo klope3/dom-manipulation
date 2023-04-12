@@ -36,5 +36,43 @@
  * * /~/ do that to a specific item that has a specific class value
  * * add the event listener to the container, pass the callback.
  */
+const favsStr = localStorage.getItem("favs");
+let favorites =
+  favsStr && favsStr.length > 0
+    ? favsStr.split(",").map((elem) => +elem)
+    : undefined;
 
-// Your code goes here...
+const cards = document.querySelectorAll(".card");
+for (const card of cards) {
+  card.addEventListener("click", clickCard);
+
+  if (favorites && favorites.includes(+card.id)) {
+    setFavorited(card, true);
+  }
+}
+
+function setFavorited(card, favState) {
+  card.dataset.fav = `${favState}`;
+  card.className = favState ? "card red" : "card";
+}
+
+function clickCard(e) {
+  const stateToSet = e.target.dataset.fav === "false" ? true : false;
+  setFavorited(e.target, stateToSet);
+
+  const clickedId = +e.target.id;
+  toggleIdInFavs(clickedId);
+}
+
+function toggleIdInFavs(id) {
+  if (favorites) {
+    if (favorites.includes(id)) {
+      favorites.splice(favorites.indexOf(id), 1);
+    } else {
+      favorites.push(id);
+    }
+  } else {
+    favorites = [id];
+  }
+  localStorage.setItem("favs", `${favorites}`);
+}

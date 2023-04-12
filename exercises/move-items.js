@@ -2,7 +2,7 @@
  * SORTING NODES WITHIN A CONTAINER
  * Please, make sure to read the following files in the exercises-info folder before you start
  * * 01 SelectNodes.md
-*/
+ */
 
 /**
  * @task
@@ -11,9 +11,8 @@
  * Example: const allItems = <Your code>;
  */
 
-// Your code goes here...
-
-
+const allItems = document.querySelectorAll(".item");
+console.log(allItems);
 
 /**
  * @task
@@ -22,9 +21,7 @@
  * Example: const main = <Your code>
  * */
 
-// Your code goes here
-
-
+const main = document.getElementById("main");
 
 /**
  * @task
@@ -33,9 +30,7 @@
  * Example: const favs = <Your code>;
  */
 
-// Your code goes here
-
-
+const favs = document.getElementById("favs");
 
 /**
  * @task
@@ -46,9 +41,18 @@
  * Changes the icon of the element: fa-heart-circle-plus for main, fa-heart-crack for favs items.
  */
 
-// Your code goes here
-
-
+function updateCollections(id, direction) {
+  const element = document.getElementById(id);
+  const icon = element.getElementsByTagName("i")[0];
+  if (direction === "toMain") {
+    main.appendChild(element);
+    icon.className = "fa-solid fa-heart-circle-plus";
+  }
+  if (direction === "toFavs") {
+    favs.appendChild(element);
+    icon.className = "fa-solid fa-heart-crack";
+  }
+}
 
 /**
  * @task
@@ -64,6 +68,11 @@
  * * Make the updateCollections function call, assign the item Id and the direction defined above
  */
 
-// Your code goes here...
-
-
+for (const item of allItems) {
+  item.addEventListener("click", () => {
+    const parentId = item.parentElement.id;
+    const ownId = item.id;
+    const direction = parentId === main.id ? "toFavs" : "toMain";
+    updateCollections(ownId, direction);
+  });
+}
