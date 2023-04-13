@@ -42,10 +42,15 @@ let favorites =
     ? favsStr.split(",").map((elem) => +elem)
     : undefined;
 
+const cardsContainer = document.querySelector(".cardsContainer");
+cardsContainer.addEventListener("click", (e) => {
+  if (e.target.className !== "cardsContainer") {
+    clickCard(e);
+  }
+});
+
 const cards = document.querySelectorAll(".card");
 for (const card of cards) {
-  card.addEventListener("click", clickCard);
-
   if (favorites && favorites.includes(+card.id)) {
     setFavorited(card, true);
   }
